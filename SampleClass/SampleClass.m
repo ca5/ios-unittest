@@ -27,6 +27,7 @@ static NSString *const kUserDefaultsKey = @"sample_key";
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
                  ^{
                     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+                    [NSThread sleepForTimeInterval:5];
                     completionHandler([ud stringForKey:kUserDefaultsKey]);
                  });
 }
