@@ -16,13 +16,24 @@ FOUNDATION_EXPORT const unsigned char SampleClassVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <SampleClass/PublicHeader.h>
 
-
+//外部callback用blocks
 typedef void (^UserDefaultCompletionHandler)(NSString *);
 
-@interface SampleClass : NSObject
-- (void)initWithUserDefaultCompletionHandler: (UserDefaultCompletionHandler *)handler;
+//内部callback用delegate
+@protocol UserDefaultDelegate<NSObject>
+- (void)receiveUserDefault:(NSString *)str;
+@end
+
+//外部callback用delegate
+@protocol SampleClassDelegate<NSObject>
+@required
+- receiveString:(NSString *)str;
+@end
+
+@interface SampleClass<UserDefaultDelegate> : NSObject
+- (instancetype)initWithSampleClassDelegate:(id)delegate;
 - (void)setUserDefault:(NSString *)str;
 - (NSString *)getUserDefault;
 - (void)getUserDefaultAsyncWithCompletionHandle:(UserDefaultCompletionHandler)completionHandler;
-
+- (void)getUserDefaultAsync;
 @end
